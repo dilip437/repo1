@@ -1,0 +1,20 @@
+<div style="text-align:center">
+  <h1>
+    Welcome to {{title}}!
+  </h1>
+  <div class="chat-container">
+      <div class="chat-user">
+          <input class="input-user" 
+          [value] = "user" (input) = "user = $event.target.value" />
+      </div>
+    <div class="chat">
+      <div class="message"></div>
+    </div>
+  </div>
+</div>
+<div class="footer">
+  <div class="send-button">
+    <input class="input-message" type="text" id="text" name="text" class="form-control" #text/>
+    <button type="button" (click)="sendMessage(text.value)">Send</button>
+  </div>
+</div>
