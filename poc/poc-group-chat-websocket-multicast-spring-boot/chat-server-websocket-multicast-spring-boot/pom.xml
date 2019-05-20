@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.springframework</groupId>
-    <artifactId>chat-websocket-multicast-spring-boot</artifactId>
+    <artifactId>chat-server-websocket-multicast-spring-boot</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
     <properties>
