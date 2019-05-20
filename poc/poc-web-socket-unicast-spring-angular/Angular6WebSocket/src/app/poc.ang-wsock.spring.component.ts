@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { environment } from '../environments/environment';
 
 import * as Stomp from '@stomp/stompjs'; 
 import * as SockJS from 'sockjs-client'; 
@@ -9,12 +10,13 @@ import * as SockJS from 'sockjs-client';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'Angular 6 WebSocket';
-  description = 'WebSocket with Angular 6 and Spring Boot App';
+  private serverUrl:string = environment.serverUrl;
+  private title:string = 'Angular 6 WebSocket';
+  private description:string = 'WebSocket with Angular 6 and Spring Boot App';
  
   replies: string[] = [];
-  disabled = true;
-  text: string;
+  private disabled:boolean = true;
+  private text: string;
   private stompClient = null;
  
   constructor() {}
@@ -27,7 +29,7 @@ export class AppComponent {
   }
  
   connect() {
-    const socket = new SockJS('http://localhost:8080/ang-web-socket-endpoint');
+    const socket = new SockJS(this.serverUrl);
     this.stompClient = Stomp.Stomp.over(socket);
     const _this = this;
     this.stompClient.connect({}, function (frame) {
