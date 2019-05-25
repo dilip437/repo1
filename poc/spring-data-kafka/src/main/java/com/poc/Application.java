@@ -2,11 +2,14 @@ package com.poc;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.kafka.annotation.KafkaListener;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.poc.model.MessageDTO;
 
 @SpringBootApplication
+@ComponentScan("com.poc.*")
 public class Application {
 
 	private static final String topicName = "test-topic";
