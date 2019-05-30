@@ -1,13 +1,15 @@
 package com.poc.config;
 
 import java.util.Properties;
+
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -16,17 +18,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @ComponentScan("com.poc.*")
 @EnableTransactionManagement
 public class DBConfiguration {
-	@Value("${db.driver}")
-	private String DRIVER;
-
-	@Value("${db.password}")
-	private String PASSWORD;
-
-	@Value("${db.url}")
-	private String URL;
-
-	@Value("${db.username}")
-	private String USERNAME;
 
 	@Value("${hibernate.dialect}")
 	private String DIALECT;
@@ -39,17 +30,13 @@ public class DBConfiguration {
 
 	@Value("${entitymanager.packagesToScan}")
 	private String PACKAGES_TO_SCAN;
-
+	
 	@Bean
+    @ConfigurationProperties(prefix = "spring.datasource")
 	public DataSource dataSource() {
-		DriverManagerDataSource dataSource = new DriverManagerDataSource();
-		dataSource.setDriverClassName(DRIVER);
-		dataSource.setUrl(URL);
-		dataSource.setUsername(USERNAME);
-		dataSource.setPassword(PASSWORD);
-		return dataSource;
+		return DataSourceBuilder.create().build();
 	}
-
+	
 	@Bean
 	public LocalSessionFactoryBean sessionFactory() {
 		LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();

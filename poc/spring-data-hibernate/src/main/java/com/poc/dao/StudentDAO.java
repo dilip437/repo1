@@ -9,6 +9,11 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.poc.exception.EntityException;
+import com.poc.exception.EntityNotFoundException;
+import com.poc.exception.EntityRemoveException;
+import com.poc.exception.EntitySaveException;
+import com.poc.exception.EntityUpdateException;
 import com.poc.model.Student;
 
 @Repository
@@ -21,44 +26,52 @@ public class StudentDAO {
 		return sessionFactory.getCurrentSession();
 	}
 
-	public String save(Student student) {
+	public String save(Student student) throws EntityException {
 		try {
 			Long isSuccess = (Long)getSession().save(student);
 			if(isSuccess >= 1){
 				return "Success";
 			}else{
-				return "Error while Saving Student";
+				throw new EntitySaveException("Error: Saving Student");
 			}
 		} catch (Exception e) {
-			return "Error while Saving Student";
+			throw new EntitySaveException("Error: Saving Student");
 		}
 	}
 
-	public String update(Student student) {
+	public String update(Student student) throws EntityException {
 		try {
 			getSession().saveOrUpdate(student);
 			return "Success";
 		} catch (Exception e) {
-			return "Error while Saving Student";
+			throw new EntityUpdateException("Error: Updating Student");
 		}
 	}
 	
-	public boolean delete(Student student) {
+	public boolean delete(Student student) throws EntityException {
 		try {
 			getSession().delete(student);
 			return true;
 		} catch (Exception e) {
-			return false;
+			throw new EntityRemoveException("Error: Removing Student");
 		}
 	}
 
 	@SuppressWarnings("unchecked")
-	public Student get(String id) {
-		return getSession().get(Student.class, id);		
+	public Student get(String id) throws EntityException {
+		try {
+			return getSession().get(Student.class, id);
+		} catch (Exception e) {
+			throw new EntityNotFoundException("Error: Finding Student");
+		}
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<Student> getAll() {
-		return getSession().createQuery("from Student").list();
+	public List<Student> getAll() throws EntityException {
+		try {
+			return getSession().createQuery("from Student").list();
+		} catch (Exception e) {
+			throw new EntityNotFoundException("Error: Finding Student");
+		}
 	}
 }
